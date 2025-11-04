@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Сучасні технології — Контакти</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/favicon.ico">
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="index.html">
+        <img src="images/logo.png" alt="Логотип" class="logo__img">
+        <span class="logo__text">Сучасні технології</span>
+      </a>
+      <button class="menu-toggle" aria-label="Меню">☰</button>
+      <nav class="menu" aria-label="Головне меню">
+        <ul class="menu__list">
+          <li><a class="menu__link" href="index.html">Головна</a></li>
+          <li><a class="menu__link" href="about.html">Про тему</a></li>
+          <li><a class="menu__link" href="gallery.html">Галерея</a></li>
+          <li><a class="menu__link is-active" href="contact.html">Контакти</a></li>
+          <li><a class="menu__link" href="author.html">Автор</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main container">
+    <h1>Контакти</h1>
+    <p class="content">Залиште повідомлення через форму нижче або знайдіть мене на мапі. Відео праворуч — коротке натхнення про силу сучасних технологій.</p>
+
+    <section class="contact">
+      <form class="contact__form" id="contact-form" action="#" method="post">
+        <div class="form-row">
+          <label for="name">Ім'я</label>
+          <input id="name" name="name" type="text" required>
+        </div>
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required>
+        </div>
+        <div class="form-row">
+          <label for="message">Повідомлення</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <button class="btn" type="submit">Надіслати</button>
+        <p id="contact-success" class="muted" style="display:none;margin-top:8px;">Дякую! Повідомлення збережено локально на цьому пристрої.</p>
+      </form>
+    </section>
+
+    <section class="map-video grid-2">
+      <div class="map">
+        <h2>Мапа (Київ)</h2>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.981423469004!2d30.51431567660471!3d50.44209798961624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4ce5c9b7b9bbf%3A0x6e2f1a3d0d4a1a4a!2sKyiv!5e0!3m2!1sen!2sua!4v1600000000000!5m2!1sen!2sua"
+          width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="video">
+        <h2>YouTube відео</h2>
+        <div class="video__wrapper">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="YouTube video" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      © <a href="author.html">Автор</a>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
+
+
