@@ -93,7 +93,7 @@
   const STORAGE_CONFIG = {
     useCloudStorage: true, // Set to true to enable cloud storage
     jsonBinId: '6924d93b43b1c97be9c2e97d', // Your JSONBin.io bin ID (get it from https://jsonbin.io)
-    jsonBinApiKey: '', // Optional: JSONBin.io API key for private bins
+    jsonBinApiKey: '$2a$10$LBvDQawSJXSdApOZCiKe6OVwbFqmkXjC9gOwL7P4hd7MUT8gQYbCW', // Optional: JSONBin.io API key for private bins
     githubToken: '', // Optional: GitHub token for Gist API
     gistId: '', // Optional: GitHub Gist ID for storing contacts
     fallbackToLocal: true // Always fall back to localStorage if cloud storage fails
@@ -410,5 +410,6 @@
     console.log('Це означає, що контакти будуть доступні тільки на тому пристрої, де вони були створені.');
   }
 })();
+
 
 
