@@ -29,7 +29,6 @@
       totalSlidesEl.textContent = sliderItems.length;
     }
     
-    // Update active gallery item
     galleryItems.forEach((item, i) => {
       if (i === index) {
         item.classList.add('is-active');
@@ -46,7 +45,6 @@
     track.style.transform = `translateX(${offset}%)`;
     updateSliderCounter();
     
-    // Reset autoplay
     if (autoPlayInterval) {
       clearInterval(autoPlayInterval);
       autoPlayInterval = setInterval(() => goTo(index + 1), 4000);
@@ -70,7 +68,6 @@
       startAutoPlay();
     });
 
-    // Gallery item clicks
     galleryItems.forEach((item, i) => {
       item.addEventListener('click', () => {
         goTo(i);
@@ -78,34 +75,25 @@
       });
     });
 
-    // Initialize counter
     updateSliderCounter();
     
-    // Start auto-play
     startAutoPlay();
   }
 
-  // Contact storage configuration
-  // For cloud storage on GitHub Pages, you have two options:
-  // 1. JSONBin.io (recommended - free tier available)
-  // 2. GitHub Gist API (requires GitHub token)
-  // Leave empty to use localStorage only (works locally but not synced across devices)
   const STORAGE_CONFIG = {
-    useCloudStorage: true, // Set to true to enable cloud storage
-    jsonBinId: '6924d93b43b1c97be9c2e97d', // Your JSONBin.io bin ID (get it from https://jsonbin.io)
-    jsonBinApiKey: '$2a$10$LBvDQawSJXSdApOZCiKe6OVwbFqmkXjC9gOwL7P4hd7MUT8gQYbCW', // Optional: JSONBin.io API key for private bins
-    githubToken: '', // Optional: GitHub token for Gist API
-    gistId: '', // Optional: GitHub Gist ID for storing contacts
-    fallbackToLocal: true // Always fall back to localStorage if cloud storage fails
+    useCloudStorage: true, 
+    jsonBinId: '6924d93b43b1c97be9c2e97d',
+    jsonBinApiKey: '$2a$10$LBvDQawSJXSdApOZCiKe6OVwbFqmkXjC9gOwL7P4hd7MUT8gQYbCW', 
+    githubToken: '', 
+    gistId: '', 
+    fallbackToLocal: true 
   };
 
-  // Storage helper functions
   async function saveToCloud(contacts) {
     if (!STORAGE_CONFIG.useCloudStorage) {
       return false;
     }
 
-    // Try JSONBin.io first
     if (STORAGE_CONFIG.jsonBinId) {
       try {
         const url = `https://api.jsonbin.io/v3/b/${STORAGE_CONFIG.jsonBinId}`;
@@ -131,7 +119,6 @@
       }
     }
 
-    // Try GitHub Gist as alternative
     if (STORAGE_CONFIG.githubToken && STORAGE_CONFIG.gistId) {
       try {
         const url = `https://api.github.com/gists/${STORAGE_CONFIG.gistId}`;
@@ -166,7 +153,6 @@
       return null;
     }
 
-    // Try JSONBin.io first
     if (STORAGE_CONFIG.jsonBinId) {
       try {
         const url = `https://api.jsonbin.io/v3/b/${STORAGE_CONFIG.jsonBinId}/latest`;
@@ -187,7 +173,6 @@
       }
     }
 
-    // Try GitHub Gist as alternative
     if (STORAGE_CONFIG.githubToken && STORAGE_CONFIG.gistId) {
       try {
         const url = `https://api.github.com/gists/${STORAGE_CONFIG.gistId}`;
@@ -213,32 +198,25 @@
     return null;
   }
 
-  // Save contacts to both localStorage and cloud
   async function saveContacts(contacts) {
-    // Always save to localStorage as backup
     localStorage.setItem('contacts', JSON.stringify(contacts));
     
-    // Try to save to cloud
     if (STORAGE_CONFIG.useCloudStorage && STORAGE_CONFIG.jsonBinId) {
       await saveToCloud(contacts);
     }
   }
 
-  // Load contacts from cloud (if available) or localStorage
   async function loadContacts() {
     let contacts = [];
     
-    // Try to load from cloud first
     if (STORAGE_CONFIG.useCloudStorage && STORAGE_CONFIG.jsonBinId) {
       const cloudContacts = await loadFromCloud();
       if (cloudContacts && Array.isArray(cloudContacts)) {
         contacts = cloudContacts;
-        // Sync to localStorage
         localStorage.setItem('contacts', JSON.stringify(contacts));
       }
     }
     
-    // If no cloud data, try localStorage
     if (contacts.length === 0) {
       const localContacts = localStorage.getItem('contacts');
       if (localContacts) {
@@ -253,7 +231,6 @@
     return contacts;
   }
 
-  // Contact form: save to localStorage and cloud
   const form = qs('#contact-form');
   if (form) {
     form.addEventListener('submit', async (e) => {
@@ -265,13 +242,11 @@
       if (!name || !email || !message) return;
       
       const submittedAt = new Date().toISOString();
-      const id = Date.now().toString(); // Unique ID for each contact
+      const id = Date.now().toString(); 
 
-      // Get existing contacts
       const existing = await loadContacts();
       existing.push({ id, name, email, message, submittedAt });
       
-      // Save to both storage locations
       await saveContacts(existing);
 
       const ok = qs('#contact-success');
@@ -283,32 +258,26 @@
       }
       
       form.reset();
-      await loadSavedContacts(); // Refresh the contacts list
+      await loadSavedContacts(); 
     });
   }
 
-  // Load and display saved contacts
   async function loadSavedContacts() {
     const contactsList = qs('#contacts-list');
     const clearBtn = qs('#clear-contacts-btn');
     if (!contactsList) return;
 
-    // Show loading state
     contactsList.innerHTML = '<div class="loading-state">Завантаження контактів...</div>';
 
-    // Load contacts from cloud or localStorage
     const contacts = await loadContacts();
     
-    // Show/hide clear button based on contacts count
     if (clearBtn) {
       clearBtn.style.display = contacts.length > 0 ? 'inline-block' : 'none';
     }
     
-    // Clear the list first
     contactsList.innerHTML = '';
     
     if (contacts.length === 0) {
-      // Show empty state
       const emptyState = document.createElement('div');
       emptyState.className = 'empty-state';
       emptyState.id = 'empty-state';
@@ -320,7 +289,6 @@
       return;
     }
     
-    // Sort by date (newest first)
     contacts.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
     
     contacts.forEach(contact => {
@@ -354,7 +322,6 @@
       contactsList.appendChild(contactItem);
     });
 
-    // Add delete handlers
     qsa('.delete-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const id = btn.dataset.id;
@@ -365,7 +332,6 @@
     });
   }
 
-  // Delete a contact
   async function deleteContact(id) {
     const contacts = await loadContacts();
     const filtered = contacts.filter(c => c.id !== id);
@@ -373,7 +339,6 @@
     await loadSavedContacts();
   }
 
-  // Clear all contacts
   const clearBtn = qs('#clear-contacts-btn');
   if (clearBtn) {
     clearBtn.addEventListener('click', async () => {
@@ -390,19 +355,16 @@
     });
   }
 
-  // Escape HTML to prevent XSS
   function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
   }
 
-  // Load contacts on page load (if on contact page)
   if (form || qs('#contacts-list')) {
     loadSavedContacts();
   }
 
-  // Show instructions if cloud storage is not configured
   if (STORAGE_CONFIG.useCloudStorage && !STORAGE_CONFIG.jsonBinId && !STORAGE_CONFIG.gistId) {
     console.log('%c💡 Налаштування хмарного зберігання контактів:', 'color: #5b8def; font-weight: bold; font-size: 14px;');
     console.log('%cДля зберігання контактів на GitHub Pages відкрийте файл SETUP_CONTACTS.md', 'color: #9ca3af;');
@@ -410,6 +372,7 @@
     console.log('Це означає, що контакти будуть доступні тільки на тому пристрої, де вони були створені.');
   }
 })();
+
 
 
 
